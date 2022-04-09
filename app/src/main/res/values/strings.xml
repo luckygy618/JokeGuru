@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">JokeGuru</string>
+    <string name="prev">Prev</string>
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+    <string name="quiz_wrong">Wrong</string>
+    <string name="quiz_avg">Average</string>
+    <string name="newJokes">More</string>
+    <string name="saved">Saved Jokes</string>
+    <string name="added">Joke Saved to Database</string>
+    <string name="deleteAll">Delete All</string>
+    <string name="deleteString">Deleted all saved jokes.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
