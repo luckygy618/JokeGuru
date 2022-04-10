@@ -24,8 +24,7 @@ public class JsonService {
                 String category = jsonArray.getJSONObject(i).getString("category");
                 String joke = jsonArray.getJSONObject(i).getString("joke");
                 arrayList.add(new Joke(id,category,joke));
-                // if I need the city name and province and Country name
-                // I have to use substring function
+
             }
         } catch (JSONException e) {
             e.printStackTrace();

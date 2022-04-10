@@ -2,6 +2,7 @@ package com.guoyucao.jokeguru;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -113,23 +114,15 @@ public class MainActivity extends AppCompatActivity implements DataService.Netwo
 
         JokeFragment tmp = new JokeFragment(new Joke("NA", "NA", "Click \"More\" button to get jokes."));
         fragManager.beginTransaction().replace(R.id.fragment_1, tmp).commit();
-
+       // Log.d("onCreate: ","called onCreate function");
+// android:launchMode="singleInstance"
         // dataManager.getAnyJokes();
     }
 
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("currentPosition", position);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        position = (int) savedInstanceState.get("currentPosition");
-        Joke joke = ((MyApp) getApplication()).getJokes().get(position);
-        setFragmentView(joke);
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
@@ -165,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements DataService.Netwo
         ArrayList<Joke> jokes = jsonService.getJokesFromJSON(json);
         ((MyApp) getApplication()).setJokes(jokes);
         setFragmentView(jokes.get(0));
-
+        proBar.setProgress(position+1);
     }
 
 
@@ -178,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements DataService.Netwo
             jokes.add(newJoke);
         }
         ((MyApp) getApplication()).setSavedJokes(jokes);
-        Intent myIntent = new Intent(this, JokeList.class);// messaging object
+        Intent myIntent = new Intent(this, SavedJokesActivity.class);// messaging object
         startActivity(myIntent);
     }
 

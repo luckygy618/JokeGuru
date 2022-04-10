@@ -10,7 +10,7 @@ import android.os.Bundle;
 import com.guoyucao.jokeguru.database.DatabaseManager;
 import com.guoyucao.jokeguru.database.JokeEntity;
 
-public class JokeList extends AppCompatActivity  {
+public class SavedJokesActivity extends AppCompatActivity  {
     RecyclerView recyclerView;
     JokeAdapter jokeAdapter;
     JokeEntity jokeEntity;
@@ -19,7 +19,7 @@ public class JokeList extends AppCompatActivity  {
     JokeAdapter.ItemListener jokeListener = new JokeAdapter.ItemListener() {
         @Override
         public void onItemClicked(Joke item, int position) {
-            Intent myIntent = new Intent(JokeList.this, JokeDetail.class);// messaging object
+            Intent myIntent = new Intent(SavedJokesActivity.this, JokeDetail.class);// messaging object
             myIntent.putExtra("id",  item.getId());
             myIntent.putExtra("tag",  item.getCategory());
             myIntent.putExtra("content",  item.getJoke());
