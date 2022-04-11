@@ -24,17 +24,6 @@ public class DataService {
         connect(url);
     }
 
-    public void getCustomJokes(String[] categories) {
-        String url = baseUrl;
-        for (int i = 0; i < categories.length; i++) {
-            if (i < categories.length - 1) {
-                url += categories[i];
-                url += ",";
-            }
-        }
-        url += "?type=single&amount=10";
-        connect(url);
-    }
 
     public void connect(String url) {
         networkExecutorService.execute(new Runnable() {
@@ -55,8 +44,7 @@ public class DataService {
                     while ((inputStreamData = reader.read()) != -1) {
                         char current = (char) inputStreamData;
                         jsonString += current;
-                    } // json is ready
-                    // I can send it to somewhere else to decode it
+                    }
 
                     final String finalJsonString = jsonString;
                     networkingHandler.post(new Runnable() {

@@ -68,10 +68,6 @@ public class SavedJokesActivity extends AppCompatActivity implements DatabaseMan
         itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        // jokeAdapter = new JokeAdapter(this,savedJokes);
-        //  recyclerView.setAdapter(jokeAdapter);
-        //  jokeAdapter.setItemListener(jokeListener);
-
         /*
        jokeAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
          public void onChanged() {
@@ -120,12 +116,10 @@ public class SavedJokesActivity extends AppCompatActivity implements DatabaseMan
 
     @Override
     public void onDeleteAllDone() {
-       // Toast.makeText(getApplicationContext(), getString(R.string.deleteString) + "!", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onAddDone() {
-     //   Toast.makeText(getApplicationContext(), getString(R.string.added) + "!", Toast.LENGTH_SHORT).show();
     }
 
 }
