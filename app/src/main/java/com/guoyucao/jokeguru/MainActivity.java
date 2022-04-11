@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements DataService.Netwo
         position = 0;
         proBar = findViewById(R.id.progressBar);
         proBar.setMax(10);
-        proBar.setProgress(position+1);
+        proBar.setProgress(position + 1);
         newJokes = findViewById(R.id.newJoke);
         prev = findViewById(R.id.prev);
         next = findViewById(R.id.next);
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements DataService.Netwo
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(((MyApp) getApplication()).getJokes().size()==0){
+                if (((MyApp) getApplication()).getJokes().size() == 0) {
                     return;
                 }
                 position--;
@@ -79,14 +79,14 @@ public class MainActivity extends AppCompatActivity implements DataService.Netwo
                 }
                 Joke joke = ((MyApp) getApplication()).getJokes().get(position);
                 setFragmentView(joke);
-                proBar.setProgress(position+1);
+                proBar.setProgress(position + 1);
             }
         });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(((MyApp) getApplication()).getJokes().size()==0){
+                if (((MyApp) getApplication()).getJokes().size() == 0) {
                     return;
                 }
                 position++;
@@ -95,14 +95,14 @@ public class MainActivity extends AppCompatActivity implements DataService.Netwo
                 }
                 Joke joke = ((MyApp) getApplication()).getJokes().get(position);
                 setFragmentView(joke);
-                proBar.setProgress(position+1);
+                proBar.setProgress(position + 1);
             }
         });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(((MyApp) getApplication()).getJokes().size()==0){
+                if (((MyApp) getApplication()).getJokes().size() == 0) {
                     return;
                 }
                 Joke currentJoke = ((MyApp) getApplication()).getJokes().get(position);
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements DataService.Netwo
 
         JokeFragment tmp = new JokeFragment(new Joke("NA", "NA", "Click \"More\" button to get jokes."));
         fragManager.beginTransaction().replace(R.id.fragment_1, tmp).commit();
-       // Log.d("onCreate: ","called onCreate function");
+        // Log.d("onCreate: ","called onCreate function");
 // android:launchMode="singleInstance"
         // dataManager.getAnyJokes();
     }
@@ -131,12 +131,21 @@ public class MainActivity extends AppCompatActivity implements DataService.Netwo
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("onResume", "onResume is ca;;ed 6666666666");
+        dbManager.getDb(this);
+        dbManager.listener = this;
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu1:
-                dbManager.getAllJokes();
+                //   dbManager.getAllJokes();
+                Intent myIntent = new Intent(this, SavedJokesActivity.class);// messaging object
+                startActivity(myIntent);
                 break;
             case R.id.menu2:
                 dbManager.deleteAll();
@@ -158,21 +167,13 @@ public class MainActivity extends AppCompatActivity implements DataService.Netwo
         ArrayList<Joke> jokes = jsonService.getJokesFromJSON(json);
         ((MyApp) getApplication()).setJokes(jokes);
         setFragmentView(jokes.get(0));
-        proBar.setProgress(position+1);
+        proBar.setProgress(position + 1);
     }
 
 
     @Override
     public void onListReady(List<JokeEntity> list) {
-        ArrayList<Joke> jokes = new ArrayList<>();
-        for (JokeEntity j : list) {
-            Joke newJoke = new Joke();
-            newJoke = j.getJoke();
-            jokes.add(newJoke);
-        }
-        ((MyApp) getApplication()).setSavedJokes(jokes);
-        Intent myIntent = new Intent(this, SavedJokesActivity.class);// messaging object
-        startActivity(myIntent);
+
     }
 
     @Override
@@ -182,7 +183,13 @@ public class MainActivity extends AppCompatActivity implements DataService.Netwo
     }
 
     @Override
-    public void onDeleteDone() {
+    public void onDeleteDone(List<JokeEntity> list) {
+        // Toast.makeText(getApplicationContext(), getString(R.string.deleteString), Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onDeleteAllDone() {
         Toast.makeText(getApplicationContext(), getString(R.string.deleteString), Toast.LENGTH_SHORT).show();
     }
 

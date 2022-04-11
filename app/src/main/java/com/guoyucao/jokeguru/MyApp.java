@@ -13,11 +13,17 @@ public class MyApp extends Application {
 
     ArrayList<Joke> jokes;
     ArrayList<Joke> savedJokes;
-    Joke test = new Joke("This is a test joke 666.","Programming","001");
+    Joke test = new Joke("This is a test joke 666.", "Programming", "001");
 
     DatabaseManager dbManager = new DatabaseManager();
     JokeEntity mainJokeEntity = new JokeEntity();
+    private final DataService dataService = new DataService();
+    private final JsonService jsonService = new JsonService();
 
+    public MyApp() {
+        jokes = new ArrayList<Joke>();
+        savedJokes = new ArrayList<Joke>();
+    }
 
     public DatabaseManager getDbManager() {
         return dbManager;
@@ -41,11 +47,6 @@ public class MyApp extends Application {
 
     }
 
-    public MyApp() {
-        jokes = new ArrayList<Joke>();
-        savedJokes = new ArrayList<Joke>();
-    }
-
     public ArrayList<Joke> getSavedJokes() {
         return savedJokes;
     }
@@ -62,9 +63,6 @@ public class MyApp extends Application {
         this.jokes = jokes;
     }
 
-    private DataService dataService = new DataService();
-
-    private JsonService jsonService = new JsonService();
     public JsonService getJsonService() {
         return jsonService;
     }
@@ -73,8 +71,6 @@ public class MyApp extends Application {
     public DataService getDataService() {
         return dataService;
     }
-
-
 
 
 }

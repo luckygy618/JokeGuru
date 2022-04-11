@@ -24,7 +24,8 @@
         <activity
             android:configChanges="screenSize|orientation"
             android:name=".SavedJokesActivity"
-            android:exported="false" >
+            android:launchMode="singleInstance"
+            android:exported="true" >
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

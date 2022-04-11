@@ -10,29 +10,30 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-
 import java.util.ArrayList;
 
 public class JokeAdapter extends RecyclerView.Adapter<JokeAdapter.MyViewHolder> {
 
     private ArrayList<Joke> jokeList;
-    private Context mContext;
+    private final Context mContext;
     private ItemListener mItemListener;
 
-    public interface ItemListener {
-        void onItemClicked(Joke item, int position);
-    }
-
-    public JokeAdapter(Context context,ArrayList<Joke> itemLst) {
+    public JokeAdapter(Context context, ArrayList<Joke> itemLst) {
         this.jokeList = itemLst;
         mContext = context;
+    }
+
+    public ArrayList<Joke> getJokeList() {
+        return jokeList;
+    }
+
+    public void setJokeList(ArrayList<Joke> jokeList) {
+        this.jokeList = jokeList;
     }
 
     public void setItemListener(ItemListener mItemListener) {
         this.mItemListener = mItemListener;
     }
-
 
     @NonNull
     @Override
@@ -46,14 +47,14 @@ public class JokeAdapter extends RecyclerView.Adapter<JokeAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.row_id.setText("ID: " + jokeList.get(position).getId());
-        holder.row_tag.setText("Tag: "+jokeList.get(position).getCategory());
-        holder.row_detail.setText(jokeList.get(position).getJoke().substring(0,27) + " ...");
+        holder.row_tag.setText("Tag: " + jokeList.get(position).getCategory());
+        holder.row_detail.setText(jokeList.get(position).getJoke().substring(0, 27) + " ...");
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mItemListener != null){
-                    mItemListener.onItemClicked(jokeList.get(holder.getAdapterPosition()),holder.getAdapterPosition());
+                if (mItemListener != null) {
+                    mItemListener.onItemClicked(jokeList.get(holder.getAdapterPosition()), holder.getAdapterPosition());
                 }
             }
         });
@@ -65,10 +66,16 @@ public class JokeAdapter extends RecyclerView.Adapter<JokeAdapter.MyViewHolder> 
         return jokeList.size();
     }
 
+    public interface ItemListener {
+        void onItemClicked(Joke item, int position);
+    }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView row_id, row_tag, row_detail;
+        private final TextView row_id;
+        private final TextView row_tag;
+        private final TextView row_detail;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             row_id = itemView.findViewById(R.id.joke_row_id);

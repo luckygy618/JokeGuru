@@ -27,9 +27,16 @@ public class JokeEntity {
         this.jokeContent = content;
     }
 
+    public JokeEntity(Joke j) {
+        this.jokeId = j.getId();
+        this.jokeTag = j.getCategory();
+        this.jokeContent = j.getJoke();
+    }
+
     public JokeEntity() {
     }
-    public Joke getJoke(){
-        return new Joke(jokeId,jokeTag,jokeContent);
+
+    public Joke getJoke() {
+        return new Joke(jokeId, jokeTag, jokeContent);
     }
 }

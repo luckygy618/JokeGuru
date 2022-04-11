@@ -12,34 +12,24 @@ import java.util.concurrent.Executors;
 
 public class DatabaseManager {
 
-    public interface DatabaseListener {
-        void onListReady (List<JokeEntity> list);
-        void onAddDone();
-        void onDeleteDone();
-    }
-
-    public DatabaseListener listener;
-
     static JokeDatabase db;
+    public DatabaseListener listener;
     ExecutorService databaseExecutor = Executors.newFixedThreadPool(4);
     Handler mainThread_Handler = new Handler(Looper.getMainLooper());
 
-
-    private static void buildDBInstance(Context context){
+    private static void buildDBInstance(Context context) {
         db = Room.databaseBuilder(context,
                 JokeDatabase.class, "joke_db").build();
     }
 
-
-    public JokeDatabase getDb(Context context){
+    public JokeDatabase getDb(Context context) {
         if (db == null) {
             buildDBInstance(context);
         }
         return db;
     }
 
-
-    public void saveNewJoke(JokeEntity newJoke){
+    public void saveNewJoke(JokeEntity newJoke) {
         databaseExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -54,12 +44,11 @@ public class DatabaseManager {
         });
     }
 
-
-    public  void getAllJokes(){
+    public void getAllJokes() {
         databaseExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                List<JokeEntity> list =  db.jokeDao().getAll();
+                List<JokeEntity> list = db.jokeDao().getAll();
                 mainThread_Handler.post(new Runnable() { // go to main thread
                     @Override
                     public void run() {
@@ -71,15 +60,17 @@ public class DatabaseManager {
 
     }
 
-    public void deleteJoke(JokeEntity del){
+    public void deleteJoke(JokeEntity del) {
         databaseExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                db.jokeDao().deleteJoke(del);
+                // db.jokeDao().delete(del);
+                db.jokeDao().deleteById(del.jokeId);
+                List<JokeEntity> list = db.jokeDao().getAll();
                 mainThread_Handler.post(new Runnable() { // go to main thread
                     @Override
                     public void run() {
-                        listener.onDeleteDone();
+                        listener.onDeleteDone(list);
                     }
                 });
             }
@@ -87,7 +78,7 @@ public class DatabaseManager {
 
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         databaseExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -95,12 +86,22 @@ public class DatabaseManager {
                 mainThread_Handler.post(new Runnable() { // go to main thread
                     @Override
                     public void run() {
-                        listener.onDeleteDone();
+                        listener.onDeleteAllDone();
                     }
                 });
             }
         });
 
+    }
+
+    public interface DatabaseListener {
+        void onListReady(List<JokeEntity> list);
+
+        void onAddDone();
+
+        void onDeleteDone(List<JokeEntity> list);
+
+        void onDeleteAllDone();
     }
 
 

@@ -6,13 +6,16 @@ public class Joke {
     private String id;
     private String tag;
     private String joke;
-    public Joke( String id,String category,String joke) {
+
+    public Joke(String id, String category, String joke) {
         this.joke = joke;
         this.tag = category;
         this.id = id;
     }
 
-    public Joke(){}
+    public Joke() {
+    }
+
     public String getJoke() {
         return joke;
     }

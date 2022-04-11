@@ -18,31 +18,29 @@ public class JokeFragment extends Fragment {
     private TextView jokeText;
     private TextView jokeID;
     private TextView jokeCategory;
+
+    public JokeFragment(Joke jokeObj) {
+        this.jokeStr = jokeObj.getJoke();
+        this.id = jokeObj.getId();
+        this.category = jokeObj.getCategory();
+
+    }
+
+    public JokeFragment() {
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         jokeText = view.findViewById(R.id.joke_detail);
-        jokeID=view.findViewById(R.id.joke_id);
+        jokeID = view.findViewById(R.id.joke_id);
         jokeCategory = view.findViewById(R.id.joke_category);
         jokeText.setText(jokeStr);
-        jokeID.setText("ID: "+id);
-        jokeCategory.setText("Tag: "+category);
+        jokeID.setText("ID: " + id);
+        jokeCategory.setText("Tag: " + category);
         return view;
     }
-
-    public JokeFragment(Joke jokeObj) {
-        this.jokeStr = jokeObj.getJoke();
-        this.id = jokeObj.getId();
-        this.category=jokeObj.getCategory();
-
-    }
-
-
-    public JokeFragment() {
-    }
-
-
 
 
 }

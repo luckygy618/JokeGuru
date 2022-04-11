@@ -6,18 +6,16 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.guoyucao.jokeguru.database.JokeEntity;
-
 import java.util.List;
 
 @Dao
 public interface JokeDAO {
 
     @Insert
-    void addJokeToDB(JokeEntity newDonation);
+    void addJokeToDB(JokeEntity joke);
 
     @Delete
-    void deleteJoke(JokeEntity toDeleteDonation);
+    void delete(JokeEntity joke);
 
     @Query("SELECT * FROM JokeEntity")
     List<JokeEntity> getAll();
@@ -25,6 +23,7 @@ public interface JokeDAO {
     @Query("DELETE FROM JokeEntity")
     void deleteAll();
 
-
+    @Query("DELETE FROM JokeEntity WHERE joke_id = :id")
+    void deleteById(String id);
 
 }
